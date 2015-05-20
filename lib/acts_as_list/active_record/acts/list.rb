@@ -144,6 +144,7 @@ module ActiveRecord
           return unless lower_item
 
           acts_as_list_class.transaction do
+            self.connection.execute("SET CONSTRAINTS ALL DEFERRED")
             lower_item.decrement_position
             increment_position
           end
@@ -154,6 +155,7 @@ module ActiveRecord
           return unless higher_item
 
           acts_as_list_class.transaction do
+            self.connection.execute("SET CONSTRAINTS ALL DEFERRED")
             higher_item.increment_position
             decrement_position
           end
@@ -164,6 +166,7 @@ module ActiveRecord
         def move_to_bottom
           return unless in_list?
           acts_as_list_class.transaction do
+            self.connection.execute("SET CONSTRAINTS ALL DEFERRED")
             decrement_positions_on_lower_items
             assume_bottom_position
           end
@@ -174,6 +177,7 @@ module ActiveRecord
         def move_to_top
           return unless in_list?
           acts_as_list_class.transaction do
+            self.connection.execute("SET CONSTRAINTS ALL DEFERRED")
             increment_positions_on_higher_items
             assume_top_position
           end
